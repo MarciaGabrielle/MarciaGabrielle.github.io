@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marcia Oliveira | Portfólio de dados</title>
+<meta name="description" content="Portfólio de Marcia Oliveira: painéis, indicadores e análises de dados com foco em inteligência de negócios.">
+<meta name="theme-color" content="#0c0517">
+<meta property="og:title" content="Marcia Oliveira | Portfólio de dados">
+<meta property="og:description" content="Dados claros para quem precisa decidir.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230c0517'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%233fe0f0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="scrim"></div>
+<div class="grain"></div>
+
+<header>
+  <button class="brand" id="home" type="button" aria-label="Marcia Oliveira, voltar ao início">Marcia Oliveira</button>
+  <span class="tag">Portfólio de dados</span>
+  <nav class="tabs" id="tabs" aria-label="Seções">
+    <button class="tab" type="button" data-p="sobre">Sobre mim</button>
+    <button class="tab" type="button" data-p="projetos">Projetos</button>
+    <button class="tab" type="button" data-p="trajetoria">Trajetória</button>
+    <button class="tab" type="button" data-p="habilidades">Habilidades</button>
+    <button class="tab" type="button" data-p="contato">Contato</button>
+  </nav>
+  <button class="back" id="back" type="button">← Menu</button>
+</header>
+
+<main>
+  <div class="eyebrow"><span>Análise de dados</span><span>BI</span><span>IA</span></div>
+  <h1>Marcia Oliveira</h1>
+  <p class="lead">Dados claros para quem precisa decidir.</p>
+  <button class="cta" id="cta" type="button">
+    Explorar o sistema
+    <span class="arrow" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </button>
+</main>
+
+<footer>Indicadores · KPIs · Inteligência de negócio</footer>
+
+<div class="menu-ui" id="menuUi">
+ <div class="menu-scroll" id="menuScroll">
+  <div class="ask"><h2>O que você deseja explorar?</h2><p>Escolha um caminho</p></div>
+  <button class="seg" data-g="sobre" type="button"><span class="lbl"><b>Sobre mim</b><small>quem sou</small></span></button>
+  <button class="seg" data-g="projetos" type="button"><span class="lbl"><b>Projetos</b><small>indicadores e painéis</small></span></button>
+  <button class="seg" data-g="trajetoria" type="button"><span class="lbl"><b>Trajetória</b><small>o caminho até aqui</small></span></button>
+  <button class="seg" data-g="habilidades" type="button"><span class="lbl"><b>Habilidades</b><small>ferramentas e técnicas</small></span></button>
+  <button class="seg" data-g="contato" type="button"><span class="lbl"><b>Contato</b><small>vamos conversar</small></span></button>
+ </div>
+</div>
+<div class="msg" id="msg" role="status"></div>
+
+<div class="sec" id="sec" role="region" aria-label="Seções do portfólio">
+
+  <section class="pane" data-p="sobre" hidden>
+    <div class="about">
+      <div class="text">
+        <div class="eyebrow"><span>Sobre mim</span></div>
+        <h2 tabindex="-1">Olá, eu sou a Marcia.</h2>
+        <p>Estudante de Ciência da Computação na UFRR, trabalho com análise de dados, consultas SQL, tratamento de bases e dashboards em Power BI. Aplico inteligência de negócios para acompanhar indicadores, identificar oportunidades e apoiar decisões.</p>
+        <p>Comecei com painéis gerenciais, feitos para dar controle e visibilidade ao que já acontece, como os que desenvolvi no TRE-RR. Hoje busco trabalhar mais com projetos em que o dado precisa apoiar uma tomada de decisão, e por isso estudo inteligência de negócios.</p>
+        <ul class="chips"><li>Power BI</li><li>SQL</li><li>Python</li><li>Engenharia de dados</li><li>Inteligência artificial</li></ul>
+      </div>
+      <div class="side">
+        <!-- Para usar uma foto: troque a linha abaixo por <div class="photo"><img src="img/foto.jpg" alt="Foto de Marcia Oliveira"></div> -->
+        <div class="photo" aria-hidden="true"><div><b>MO</b></div></div>
+        <div class="glass kpi"><b>2+</b><span>Anos trabalhando com dados</span><svg width="100%" height="22" viewBox="0 0 80 22" aria-hidden="true"><polyline points="0,18 15,14 30,16 45,8 60,10 80,3" fill="none" stroke="#3fe0f0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="glass kpi"><b>4</b><span>Experiências em TI e dados</span><svg width="100%" height="22" viewBox="0 0 80 22" aria-hidden="true"><polyline points="0,16 15,17 30,10 45,12 60,6 80,4" fill="none" stroke="#ff5fb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="glass kpi"><b>Jul/27</b><span>Formatura prevista na UFRR</span><svg width="100%" height="22" viewBox="0 0 80 22" aria-hidden="true"><polyline points="0,12 15,15 30,9 45,14 60,7 80,5" fill="none" stroke="#ffc857" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pane" data-p="projetos" hidden>
+    <div class="eyebrow"><span>Projetos</span></div>
+    <h2 tabindex="-1">Painéis e análises que desenvolvi.</h2>
+    <div class="filters" id="pfilters" role="group" aria-label="Filtrar projetos"></div>
+    <div class="pj">
+      <div class="shotcol"><div class="frame" id="shot"></div></div>
+      <div class="pinfo" id="pinfo" aria-live="polite"></div>
+    </div>
+    <div class="thumbs" id="thumbs" role="list"></div>
+  </section>
+
+  <section class="pane" data-p="trajetoria" hidden>
+    <div class="eyebrow"><span>Trajetória</span></div>
+    <h2 tabindex="-1">O caminho até aqui.</h2>
+    <ol class="line">
+      <li><time>Ago. 2020</time><h3>Ciência da Computação</h3><p>Início da graduação na Universidade Federal de Roraima, com formatura prevista para julho de 2027.</p></li>
+      <li><time>Jul. 2024 a Jun. 2025</time><h3>Estágio em TI no TRE-RR</h3><p>Coleta, organização e análise de dados com Excel e Python, e relatórios e dashboards interativos em Power BI.</p></li>
+      <li><time>Jun. 2025 a Mai. 2026</time><h3>Técnico de Suporte Pleno</h3><p>Maradilha Ferrovias, empresa terceirizada do TRE-RR. Atendimento via GLPI e criação de dashboards sempre que surgia uma demanda de visualização.</p></li>
+      <li><time>Mai. 2026 a hoje</time><h3>Engenheira de Dados Pleno</h3><p>AE3 Tecnologia. Consultas SQL, tratamento e análise de dados e visualizações em Power BI aplicadas aos produtos da empresa.</p></li>
+    </ol>
+    <h3 class="also-h">Também faz parte do caminho</h3>
+    <p class="also-sub">Bolsas, monitorias e voluntariados que andaram junto com a graduação e a carreira em dados.</p>
+    <div class="also">
+      <article class="glass ac">
+        <div class="ac-top"><span class="k k-b">Bolsa</span><span class="st live">Em andamento</span></div>
+        <h4>Bolsista de Engenharia de Dados</h4>
+        <small class="org">SOFTEX, na Cogna Educação · Remoto</small>
+        <p>Pipelines de dados para personalização de ensino.</p>
+        <details><summary>Ver detalhes</summary><ul class="ac-list"><li>Atuação em pipelines de dados, com foco em Apache Airflow.</li><li>Criação e monitoramento de DAGs.</li><li>Integração com Data Lake e apoio à disponibilização de dados para analytics e BI.</li></ul><ul class="chips"><li>Apache Airflow</li><li>DAGs</li><li>Data Lake</li><li>BI</li></ul></details>
+      </article>
+      <article class="glass ac">
+        <div class="ac-top"><span class="k k-m">Monitoria</span><span class="st">Finalizado</span></div>
+        <h4>Monitora de IA (ABCIA)</h4>
+        <small class="org">UFRR · Remoto</small>
+        <p>Curso de Introdução à Inteligência Artificial, com suporte aos estudantes e aos coordenadores.</p>
+        <details><summary>Ver detalhes</summary><ul class="ac-list"><li>Suporte direto aos estudantes e assistência aos coordenadores do curso.</li><li>Relatórios de acompanhamento e gestão do progresso dos alunos.</li><li>Acompanhamento da conclusão das atividades e suporte técnico e operacional.</li><li>Gestão das redes sociais do projeto e criação de posts para divulgação.</li></ul></details>
+      </article>
+      <article class="glass ac">
+        <div class="ac-top"><span class="k k-v">Voluntariado</span><span class="st">Finalizado</span></div>
+        <h4>Operação Acolhida</h4>
+        <small class="org">UFRR · Presencial</small>
+        <p>Capacitação em informática para imigrantes venezuelanos, no programa Caminho Digital.</p>
+        <details><summary>Ver detalhes</summary><ul class="ac-list"><li>Monitora no Curso de Capacitação em Informática, usando a plataforma Escola do Trabalhador 4.0.</li><li>Aulas no Centro Cultural e de Formação Indígena, no Jardim Floresta.</li><li>Orientação técnica e acompanhamento educacional para a integração digital dos participantes.</li></ul></details>
+      </article>
+      <article class="glass ac">
+        <div class="ac-top"><span class="k k-v">Voluntariado</span><span class="st">Finalizado</span></div>
+        <h4>Macuxi Digital</h4>
+        <small class="org">UFRR · Híbrido</small>
+        <p>Capacitação em tecnologia e mercado de trabalho para mulheres estudantes.</p>
+        <details><summary>Ver detalhes</summary><ul class="ac-list"><li>Gerenciamento do curso e monitorias presenciais.</li><li>Conteúdos: funcionamento básico do computador, sites com Wix, aplicativos com Thunkable, programação básica com Scratch e otimização de perfil no LinkedIn.</li><li>Promoção de inclusão e capacitação tecnológica para mulheres.</li></ul></details>
+      </article>
+      <article class="glass ac">
+        <div class="ac-top"><span class="k k-b">Bolsa</span><span class="st">Finalizado</span></div>
+        <h4>Monitora bolsista no BRISA</h4>
+        <small class="org">Residência em TIC · Remoto</small>
+        <p>Etapa de nivelamento em computação básica.</p>
+        <details><summary>Ver detalhes</summary><ul class="ac-list"><li>Monitora bolsista na 1ª etapa do projeto (Nivelamento em Computação Básica).</li><li>Gerenciamento das atividades dos alunos e acompanhamento de tarefas e pendências.</li><li>Suporte técnico e pedagógico para esclarecer dúvidas, auxiliando os professores.</li></ul></details>
+      </article>
+    </div>
+  </section>
+
+  <section class="pane" data-p="habilidades" hidden>
+    <div class="eyebrow"><span>Habilidades</span></div>
+    <h2 tabindex="-1">Ferramentas e técnicas.</h2>
+    <p class="sub">Escolha uma área para destacar as ferramentas e técnicas que uso.</p>
+    <div class="filters" id="filters" role="group" aria-label="Filtrar habilidades por área"></div>
+    <div class="tiles" id="tiles"></div>
+    <p class="legend"><span id="cnt"></span></p>
+  </section>
+
+  <section class="pane" data-p="contato" hidden>
+    <div class="eyebrow"><span>Contato</span></div>
+    <div class="contact">
+      <div><h2 tabindex="-1" class="big">Vamos conversar?</h2><p class="sub">Conte o que você procura e eu respondo.</p></div>
+      <div class="rows">
+        <div class="glass row"><div><small>E-mail</small><span class="v">gabybonifacio2@gmail.com</span></div><button class="copy" type="button">Copiar</button></div>
+        <div class="glass row"><div><small>LinkedIn</small><span class="v">linkedin.com/in/marcia-oliveira-956994205</span></div><button class="copy" type="button">Copiar</button></div>
+        <div class="glass row"><div><small>Localização</small><span class="v">Boa Vista, Roraima</span></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="detail" id="story" role="dialog" aria-modal="true" aria-label="Sobre o projeto Casos de AVC" hidden>
+  <button class="x" id="sClose" type="button">Fechar</button>
+  <div class="box">
+    <div class="tagrow"><span class="tag">Projeto final do curso</span></div>
+    <h3>Data Science aplicado à saúde</h3>
+    <p class="lead">Depois de 10 meses estudando dados, dos primeiros passos em Python até a criação de modelos de inteligência artificial, cheguei ao projeto final do curso, que conquistou o 1º lugar entre os trabalhos finais.</p>
+    <div class="cols">
+      <div><h4>O desafio</h4><p>Trabalhar com dados de casos de AVC (acidente vascular cerebral) e transformá-los em informação útil.</p></div>
+      <div><h4>Organização dos dados</h4><p>Python e Jupyter Notebook para limpar e organizar as informações.</p></div>
+      <div><h4>Inteligência artificial</h4><p>Treinamento de um modelo que aprende com dados históricos e indica o risco de AVC a partir de características como idade, peso e hábitos.</p></div>
+      <div><h4>Visualização</h4><p>Painel no Power BI com estatísticas e um formulário em que qualquer pessoa preenche os dados e vê a predição da IA na hora.</p></div>
+    </div>
+    <div class="gal">
+      <figure class="wide"><img src="img/avc-premiacao-grupo.jpg" alt="Equipe e organizadores do curso com os troféus do 1º lugar" loading="lazy"><figcaption>Premiação do 1º lugar</figcaption></figure>
+      <figure><img src="img/avc-apresentacao-1.jpg" alt="Apresentação do projeto final" loading="lazy"><figcaption>Apresentação do projeto final</figcaption></figure>
+      <figure><img src="img/avc-apresentacao-2.jpg" alt="Painel Casos de AVC projetado durante a apresentação" loading="lazy"><figcaption>Painel em Power BI na apresentação</figcaption></figure>
+      <figure><img src="img/avc-premiacao-dupla.jpg" alt="Dupla vencedora com os troféus" loading="lazy"><figcaption>A dupla com os troféus</figcaption></figure>
+    </div>
+    <button class="btn ghost" id="sClose2" type="button" style="justify-self:start">Fechar</button>
+  </div>
+</div>
+
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-label="Captura ampliada" hidden>
+  <div class="lb">
+    <button class="x" id="dClose" type="button">Fechar</button>
+    <div id="lbBody"></div>
+  </div>
+</div>
+
+<script src="projetos.js"></script>
+<script src="habilidades.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
