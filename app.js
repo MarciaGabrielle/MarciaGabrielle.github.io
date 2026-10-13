@@ -223,6 +223,7 @@
   function lerp(a, b, k) { return a + (b - a) * k; }
 
   function resize() {
+    if (typeof P !== 'undefined') P.forEach(function (o) { o.spr = null; });
     DPR = lite ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
     W = window.innerWidth; H = window.innerHeight;
     cv.width = W * DPR; cv.height = H * DPR;
@@ -261,16 +262,51 @@
     }
   }
 
+  /* Cache dos painéis: cada painel é desenhado em uma imagem à parte e essa imagem é só movida na tela.
+     Painéis distantes (desfocados) usam uma imagem de resolução menor, o que dá o efeito de desfoque sem custo. */
+  var SPAD = 40, frameNo = 0, transit = false;
+  function paintPanel(o, tt, glow, ee, cardA, em) {
+    var w = o.w, h = o.h;
+    if (cardA > 0.01) {
+      ctx.globalAlpha = cardA;
+      if (!lite) { ctx.shadowColor = glow > 0.3 ? 'rgba(63,224,240,.55)' : 'rgba(157,107,255,.35)'; ctx.shadowBlur = 30 * o.z * (1 - em) + (14 + 22 * glow) * em; }
+      rr(0, 0, w, h, 14);
+      ctx.fillStyle = 'rgba(32,14,62,.72)'; ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = glow > 0.3 ? 'rgba(63,224,240,.7)' : 'rgba(190,160,255,.28)'; ctx.lineWidth = 1; ctx.stroke();
+    }
+    if (ee < 0.99) { ctx.globalAlpha = o.mv ? 1 - ee : 1; draw[o.type](w, h, tt, o.p); }
+    if (ee > 0.01) { ctx.globalAlpha = ee; mdraw[o.mv](w, h, tt); }
+  }
+  function refreshSprite(o, tt, glow, ee, cardA, em) {
+    var w = o.w, h = o.h, sp = o.spr;
+    if (!sp || sp.q < DPR * o.sc * 0.85) {
+      var q = Math.min(2.2, Math.max(1, DPR * Math.max(1, o.sc)));
+      var c = document.createElement('canvas');
+      c.width = Math.ceil((w + 2 * SPAD) * q); c.height = Math.ceil((h + 2 * SPAD) * q);
+      sp = o.spr = { c: c, x: c.getContext('2d'), q: q, f: 1 };
+    }
+    var f = o.bl > 0.5 ? 1 / (1 + o.bl * 0.45) : 1;
+    sp.f = f;
+    var main = ctx; ctx = sp.x;
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, sp.c.width, sp.c.height);
+    var k = sp.q * f; ctx.setTransform(k, 0, 0, k, SPAD * k, SPAD * k);
+    paintPanel(o, tt, glow, ee, cardA, em);
+    ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+    ctx = main;
+    return sp;
+  }
+
   function start() { if (!reduce && !raf && !paused) raf = requestAnimationFrame(frame); }
   function frame(ms) {
     raf = 0;
     if (paused && !reduce) return; /* parado enquanto uma seção está aberta */
     if (!reduce) {
       var gap = ms - lastDraw;
-      if (lite && gap < 30) { start(); return; } /* modo leve: 30 quadros por segundo */
+      if (!transit && gap < 30) { start(); return; } /* 30 quadros por segundo quando nada está em transição */
       if (!checked && lastDraw) {
         slowN++; if (slowN > 20) slowSum += gap;
-        if (slowN === 80) { checked = true; if (!lite && slowSum / 60 > 24) { lite = true; resize(); } }
+        if (slowN === 80) { checked = true; if (!lite && slowSum / 60 > 42) { lite = true; resize(); } }
       }
       lastDraw = ms;
     }
@@ -340,27 +376,25 @@
       ctx.restore();
     }
 
-    /* 3) painéis */
-    P.forEach(function (o) {
+    /* 3) painéis: cada um é uma imagem guardada, que é refeita só de vez em quando (e a cada quadro durante as transições) */
+    frameNo++;
+    var settledAll = !(m > 0.001 && m < 0.999);
+    P.forEach(function (o, idx) {
+      if (o.al < 0.01) return;
       var w = o.w, h = o.h;
+      var glow = o.g ? hv[o.g] : 0, ee = o.mv ? o.e : 0, cardA = o.type === 'pie' ? ee : 1;
+      var hoverBusy = o.g && hv[o.g] > 0.01 && hv[o.g] < 0.99;
+      var sp = o.spr;
+      var need = reduce || !sp || !settledAll || hoverBusy || (frameNo + idx) % 3 === 0 || sp.q < DPR * o.sc * 0.85 || (o.e > 0.001 && o.e < 0.999);
+      if (need) sp = refreshSprite(o, t, glow, ee, cardA, em);
+      var f = sp.f;
       ctx.save();
       ctx.translate(o.cx, o.cy); ctx.rotate(o.rot); ctx.scale(o.sc, o.sc); ctx.translate(-w / 2, -h / 2);
       ctx.globalAlpha = o.al;
-      if (!lite && o.bl > 0.5 && ctx.filter !== undefined) ctx.filter = 'blur(' + o.bl.toFixed(1) + 'px)';
-      var glow = o.g ? hv[o.g] : 0, ee = o.mv ? o.e : 0, cardA = o.type === 'pie' ? ee : 1;
-      if (cardA > 0.01) {
-        ctx.globalAlpha = o.al * cardA;
-        if (!lite) { ctx.shadowColor = glow > 0.3 ? 'rgba(63,224,240,.55)' : 'rgba(157,107,255,.35)'; ctx.shadowBlur = 30 * o.z * (1 - em) + (14 + 22 * glow) * em; }
-        rr(0, 0, w, h, 14);
-        ctx.fillStyle = 'rgba(32,14,62,.72)'; ctx.fill();
-        ctx.shadowBlur = 0;
-        ctx.strokeStyle = glow > 0.3 ? 'rgba(63,224,240,.7)' : 'rgba(190,160,255,.28)'; ctx.lineWidth = 1; ctx.stroke();
-      }
-      var tt = reduce ? 3 : t;
-      if (ee < 0.99) { ctx.globalAlpha = o.al * (o.mv ? 1 - ee : 1); draw[o.type](w, h, tt, o.p); }
-      if (ee > 0.01) { ctx.globalAlpha = o.al * ee; mdraw[o.mv](w, h, tt); }
+      ctx.drawImage(sp.c, 0, 0, (w + 2 * SPAD) * sp.q * f, (h + 2 * SPAD) * sp.q * f, -SPAD, -SPAD, w + 2 * SPAD, h + 2 * SPAD);
       ctx.restore();
     });
+    transit = !settledAll || ORDER.some(function (g) { return Math.abs(hv[g] - (hover === g ? 1 : 0)) > 0.02; });
     start();
   }
 
