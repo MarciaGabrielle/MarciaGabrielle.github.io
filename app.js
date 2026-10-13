@@ -7,6 +7,10 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var C = { violet: '#9d6bff', pink: '#ff5fb0', cyan: '#3fe0f0', amber: '#ffc857', fg: '#f6f1ff' };
   var W = 0, H = 0, DPR = 1, mx = 0, my = 0, tx = 0, ty = 0;
+  /* Desempenho: em computadores mais fracos o site entra no modo leve (sem desfoque e sombras no canvas, resolução 1x e 30 quadros por segundo).
+     O modo leve liga sozinho se o aparelho for modesto ou se os quadros ficarem lentos. */
+  var lite = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 4) || false;
+  var raf = 0, paused = false, lastDraw = 0, slowSum = 0, slowN = 0, checked = false;
 
   function rr(x, y, w, h, r) {
     ctx.beginPath();
@@ -219,7 +223,7 @@
   function lerp(a, b, k) { return a + (b - a) * k; }
 
   function resize() {
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    DPR = lite ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
     W = window.innerWidth; H = window.innerHeight;
     cv.width = W * DPR; cv.height = H * DPR;
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
@@ -257,7 +261,19 @@
     }
   }
 
+  function start() { if (!reduce && !raf && !paused) raf = requestAnimationFrame(frame); }
   function frame(ms) {
+    raf = 0;
+    if (paused && !reduce) return; /* parado enquanto uma seção está aberta */
+    if (!reduce) {
+      var gap = ms - lastDraw;
+      if (lite && gap < 30) { start(); return; } /* modo leve: 30 quadros por segundo */
+      if (!checked && lastDraw) {
+        slowN++; if (slowN > 20) slowSum += gap;
+        if (slowN === 80) { checked = true; if (!lite && slowSum / 60 > 24) { lite = true; resize(); } }
+      }
+      lastDraw = ms;
+    }
     var t = reduce ? 3 : ms / 1000, dt = Math.min(0.05, Math.max(0, t - last)); last = t;
     if (reduce) m = menu ? 1 : 0; else m = Math.max(0, Math.min(1, m + (menu ? dt : -dt) / 1.7));
     mx += (tx - mx) * 0.05; my += (ty - my) * 0.05;
@@ -319,7 +335,7 @@
       ORDER.forEach(function (g) {
         var c = cen[g], h = hv[g];
         ctx.beginPath(); ctx.arc(c[0], c[1], 3.5 + 3 * h, 0, 7);
-        ctx.fillStyle = h > 0.3 ? C.cyan : C.fg; ctx.shadowColor = C.cyan; ctx.shadowBlur = 10 + 14 * h; ctx.globalAlpha = em; ctx.fill();
+        ctx.fillStyle = h > 0.3 ? C.cyan : C.fg; if (!lite) { ctx.shadowColor = C.cyan; ctx.shadowBlur = 10 + 14 * h; } ctx.globalAlpha = em; ctx.fill();
       });
       ctx.restore();
     }
@@ -330,11 +346,11 @@
       ctx.save();
       ctx.translate(o.cx, o.cy); ctx.rotate(o.rot); ctx.scale(o.sc, o.sc); ctx.translate(-w / 2, -h / 2);
       ctx.globalAlpha = o.al;
-      if (o.bl > 0.2 && ctx.filter !== undefined) ctx.filter = 'blur(' + o.bl.toFixed(1) + 'px)';
+      if (!lite && o.bl > 0.5 && ctx.filter !== undefined) ctx.filter = 'blur(' + o.bl.toFixed(1) + 'px)';
       var glow = o.g ? hv[o.g] : 0, ee = o.mv ? o.e : 0, cardA = o.type === 'pie' ? ee : 1;
       if (cardA > 0.01) {
         ctx.globalAlpha = o.al * cardA;
-        ctx.shadowColor = glow > 0.3 ? 'rgba(63,224,240,.55)' : 'rgba(157,107,255,.35)'; ctx.shadowBlur = 30 * o.z * (1 - em) + (14 + 22 * glow) * em;
+        if (!lite) { ctx.shadowColor = glow > 0.3 ? 'rgba(63,224,240,.55)' : 'rgba(157,107,255,.35)'; ctx.shadowBlur = 30 * o.z * (1 - em) + (14 + 22 * glow) * em; }
         rr(0, 0, w, h, 14);
         ctx.fillStyle = 'rgba(32,14,62,.72)'; ctx.fill();
         ctx.shadowBlur = 0;
@@ -345,7 +361,7 @@
       if (ee > 0.01) { ctx.globalAlpha = o.al * ee; mdraw[o.mv](w, h, tt); }
       ctx.restore();
     });
-    if (!reduce) requestAnimationFrame(frame);
+    start();
   }
 
   function setMenu(on) {
@@ -524,11 +540,13 @@
   }
   function openSection(g) {
     document.body.classList.add('insec'); ui.inert = true;
+    paused = true;
     showPane(g);
   }
   function closeSection() {
     var g = curSec; curSec = null;
     document.body.classList.remove('insec'); ui.inert = false;
+    paused = false; lastDraw = 0; start();
     panes.forEach(function (p) { p.hidden = true; });
     if (g && segs[g]) segs[g].focus({ preventScroll: true });
   }
@@ -543,7 +561,7 @@
   ui.addEventListener('scroll', function () { if (reduce) frame(0); });
   window.addEventListener('pointermove', function (e) { tx = e.clientX / W - 0.5; ty = e.clientY / H - 0.5; });
   resize();
-  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () { requestAnimationFrame(frame); });
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () { start(); });
 
   var msg = document.getElementById('msg'), msgT;
   document.getElementById('cta').addEventListener('click', function () { setMenu(true); });
