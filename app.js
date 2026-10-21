@@ -567,6 +567,7 @@
 
   function showPane(g) {
     curSec = g;
+    try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: 'secao/' + g, title: 'Seção: ' + g, event: true }); } catch (e) {}
     panes.forEach(function (p) { p.hidden = p.dataset.p !== g; });
     tabBtns.forEach(function (t) { if (t.dataset.p === g) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
     secEl.scrollTop = 0;
