@@ -17,7 +17,6 @@ var SK = [
   ['dados', 'SQL', 'SQL', 'JOINs, subqueries e window functions', 1, 0],
   ['dados', 'Py', 'Python', '', 1, 0],
   ['dados', 'ETL', 'ETL', 'Tratamento e preparação de bases', 0, 0],
-  ['dados', 'Af', 'Apache Airflow', 'DAGs e Data Lake', 0, 0],
   ['dados', 'Se', 'Selenium', '', 0, 0],
   ['dados', 'R', 'R', '', 0, 1],
   ['ia', 'IA', 'Inteligência artificial', '', 0, 0],
