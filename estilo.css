@@ -222,7 +222,8 @@ body.menu:not(.insec) .back { display: none; }
 .also-h { margin: 44px 0 14px; font: 500 12px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); }
 .also { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
 .also-sub { margin: -6px 0 16px; color: var(--fg-soft); font-size: 14.5px; line-height: 1.5; max-width: 62ch; }
-.also { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
+.also { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: stretch; }
+.also .ac details { margin-top: auto; padding-top: 4px; }
 .also .ac { padding: 18px 20px; gap: 8px; }
 .ac-top { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 4px; }
 .ac .k, .ac .st { font: 500 10.5px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--fg-soft); }
@@ -242,7 +243,7 @@ body.menu:not(.insec) .back { display: none; }
 .ac summary:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 4px; }
 .ac-list { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.5; color: var(--fg-soft); }
 .ac details .chips { margin-top: 12px; }
-.also .glass { padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.also .glass { padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; }
 .also b { font: 700 16px/1.25 var(--font-display); }
 .also span { font-size: 14px; line-height: 1.45; color: var(--fg-soft); }
 .skills ul.chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -377,3 +378,5 @@ body.menu:not(.insec) .back { display: none; }
 @media (prefers-reduced-motion: reduce) { .cta, .cta .arrow, .note, main, footer, .scrim, .ask, .seg { transition: none; } }
 .photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 17px; display: block; }
 
+.focus { margin-top: 44px; }
+.focus .eyebrow { margin-bottom: 16px; }
